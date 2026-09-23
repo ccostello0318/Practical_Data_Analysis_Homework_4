@@ -9,6 +9,7 @@ Christopher Costello
   - [Question 4.1](#question-41)
   - [Question 4.2](#question-42)
   - [Question 4.3](#question-43)
+  - [Question 4.4](#question-44)
 
 # Question 2
 
@@ -182,3 +183,27 @@ dbGetQuery(con,
 
     ##   dest average_arrival_delay
     ## 1  STC                21.622
+
+## Question 4.4
+
+How many domestic flights came into or flew out of Bradley Airport (BDL)
+in 2015?
+
+``` r
+dbGetQuery(con,
+           "
+          SELECT
+            SUM(1) AS number_of_flights
+          FROM
+            flights
+          WHERE
+            year = 2015
+            AND (
+              origin = 'BDL' OR
+              dest = 'BDL'
+            )
+           ")
+```
+
+    ##   number_of_flights
+    ## 1             41025

@@ -129,3 +129,23 @@ dbGetQuery(con,
           LIMIT 1
           ")
 ```
+
+## Question 4.4
+
+How many domestic flights came into or flew out of Bradley Airport (BDL) in 2015?
+
+```{r question 4.4}
+dbGetQuery(con,
+           "
+          SELECT
+            SUM(1) AS number_of_flights
+          FROM
+            flights
+          WHERE
+            year = 2015
+            AND (
+              origin = 'BDL' OR
+              dest = 'BDL'
+            )
+           ")
+```
