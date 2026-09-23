@@ -8,6 +8,7 @@ Christopher Costello
 - [Question 4](#question-4)
   - [Question 4.1](#question-41)
   - [Question 4.2](#question-42)
+  - [Question 4.3](#question-43)
 
 # Question 2
 
@@ -157,3 +158,27 @@ dbGetQuery(con,
     ## 8   DCA              6495
     ## 9   DEN              6120
     ## 10  MKE              5274
+
+## Question 4.3
+
+Which airport had the highest average arrival delay time in 2015?
+
+``` r
+dbGetQuery(con,
+          "
+          SELECT
+            dest,
+            avg(arr_delay) AS average_arrival_delay
+          FROM flights
+          WHERE
+            year = 2015
+          GROUP BY
+            dest
+          ORDER BY
+            average_arrival_delay DESC
+          LIMIT 1
+          ")
+```
+
+    ##   dest average_arrival_delay
+    ## 1  STC                21.622

@@ -108,3 +108,24 @@ dbGetQuery(con,
           LIMIT 10
           ")
 ```
+
+## Question 4.3
+
+Which airport had the highest average arrival delay time in 2015?
+
+```{r question 4.3}
+dbGetQuery(con,
+          "
+          SELECT
+            dest,
+            avg(arr_delay) AS average_arrival_delay
+          FROM flights
+          WHERE
+            year = 2015
+          GROUP BY
+            dest
+          ORDER BY
+            average_arrival_delay DESC
+          LIMIT 1
+          ")
+```
