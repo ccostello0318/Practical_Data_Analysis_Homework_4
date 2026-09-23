@@ -36,6 +36,8 @@ dbGetQuery(con,
            SELECT SUM(1) AS num_rows
            FROM `Measurements`
            ")
+
+# Disconnect database
 ```
 
 From this query, we find that the number of rows in the Measurements table is 5,052,304.
@@ -67,7 +69,7 @@ Use the dbConnect_scidb function to connect to the airlines database to answer t
 
 The `airlines` database is already connected from Question 3.
 
-# Question 4.1
+## Question 4.1
 
 How many domestic flights flew into Dallas-Fort Worth (DFW) on May 14, 2015?
 
@@ -81,5 +83,28 @@ dbGetQuery(con,
             year = 2015 AND
             month = 5 AND
             day = 14
+          ")
+```
+
+## Question 4.2
+
+Of all the destinations from Chicago O’Hare (ORD), which were the most common in 2015?
+
+```{r question 4.2}
+dbGetQuery(con,
+          "
+          SELECT
+            dest,
+            SUM(1) AS number_of_flights
+          FROM
+            flights
+          WHERE
+            origin = 'ORD' AND
+            year = 2015
+          GROUP BY
+            dest
+          ORDER BY
+            number_of_flights DESC
+          LIMIT 10
           ")
 ```

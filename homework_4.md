@@ -6,7 +6,8 @@ Christopher Costello
 - [Question 2](#question-2)
 - [Question 3](#question-3)
 - [Question 4](#question-4)
-- [Question 4.1](#question-41)
+  - [Question 4.1](#question-41)
+  - [Question 4.2](#question-42)
 
 # Question 2
 
@@ -32,6 +33,10 @@ dbGetQuery(con,
 
     ##   num_rows
     ## 1  5052304
+
+``` r
+# Disconnect database
+```
 
 From this query, we find that the number of rows in the Measurements
 table is 5,052,304.
@@ -96,7 +101,7 @@ answer the following problem.
 
 The `airlines` database is already connected from Question 3.
 
-# Question 4.1
+## Question 4.1
 
 How many domestic flights flew into Dallas-Fort Worth (DFW) on May 14,
 2015?
@@ -116,3 +121,39 @@ dbGetQuery(con,
 
     ##   number_of_flights
     ## 1               737
+
+## Question 4.2
+
+Of all the destinations from Chicago O’Hare (ORD), which were the most
+common in 2015?
+
+``` r
+dbGetQuery(con,
+          "
+          SELECT
+            dest,
+            SUM(1) AS number_of_flights
+          FROM
+            flights
+          WHERE
+            origin = 'ORD' AND
+            year = 2015
+          GROUP BY
+            dest
+          ORDER BY
+            number_of_flights DESC
+          LIMIT 10
+          ")
+```
+
+    ##    dest number_of_flights
+    ## 1   LGA             10492
+    ## 2   LAX              8720
+    ## 3   DFW              8384
+    ## 4   SFO              8156
+    ## 5   BOS              7240
+    ## 6   ATL              7104
+    ## 7   MSP              6955
+    ## 8   DCA              6495
+    ## 9   DEN              6120
+    ## 10  MKE              5274
