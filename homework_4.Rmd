@@ -1,0 +1,17 @@
+---
+title: "Practical Data Analysis Homework 4"
+author: "Christopher Costello"
+date: "`r Sys.Date()`"
+output: 
+  github_document:
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  fig.path = "my_report_files/"
+  )
+```
+
+
