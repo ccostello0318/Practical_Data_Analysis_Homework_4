@@ -5,6 +5,8 @@ Christopher Costello
 
 - [Question 2](#question-2)
 - [Question 3](#question-3)
+- [Question 4](#question-4)
+- [Question 4.1](#question-41)
 
 # Question 2
 
@@ -86,3 +88,31 @@ dbGetQuery(con,
     ## 1 2013
     ## 2 2014
     ## 3 2015
+
+# Question 4
+
+Use the dbConnect_scidb function to connect to the airlines database to
+answer the following problem.
+
+The `airlines` database is already connected from Question 3.
+
+# Question 4.1
+
+How many domestic flights flew into Dallas-Fort Worth (DFW) on May 14,
+2015?
+
+``` r
+dbGetQuery(con,
+          "
+          SELECT SUM(1) AS number_of_flights
+          FROM flights
+          WHERE
+            dest = 'DFW' AND
+            year = 2015 AND
+            month = 5 AND
+            day = 14
+          ")
+```
+
+    ##   number_of_flights
+    ## 1               737
