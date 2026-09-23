@@ -8,10 +8,10 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-library(tidyverse)
-
 knitr::opts_chunk$set(
   echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
   fig.path = "my_report_files/"
   )
 ```
@@ -22,6 +22,7 @@ knitr::opts_chunk$set(
 How many rows are available in the Measurements table of the Smith College Wideband Auditory Immittance database?
 
 ```{r question 2}
+library(tidyverse)
 library(RMariaDB)
 con <- dbConnect(
   MariaDB(), host = "scidb.smith.edu",
@@ -38,3 +39,24 @@ dbGetQuery(con,
 ```
 
 From this query, we find that the number of rows in the Measurements table is 5,052,304.
+
+# Question 3
+
+Identify what years of data are available in the flights table of the airlines database.
+
+```{r question 3}
+library(tidyverse)
+library(mdsr)
+library(RMariaDB)
+con <- dbConnect_scidb("airlines")
+
+dbListTables(con)
+
+tbl(con, "flights")
+
+dbGetQuery(con,
+           "
+           SELECT DISTINCT year
+           FROM flights
+           ")
+```
