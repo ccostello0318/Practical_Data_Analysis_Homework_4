@@ -8,6 +8,8 @@ output:
 ---
 
 ```{r setup, include=FALSE}
+library(tidyverse)
+
 knitr::opts_chunk$set(
   echo = TRUE,
   fig.path = "my_report_files/"
@@ -15,3 +17,24 @@ knitr::opts_chunk$set(
 ```
 
 
+# Question 2
+
+How many rows are available in the Measurements table of the Smith College Wideband Auditory Immittance database?
+
+```{r question 2}
+library(RMariaDB)
+con <- dbConnect(
+  MariaDB(), host = "scidb.smith.edu",
+  user = "waiuser", password = "smith_waiDB", 
+  dbname = "wai"
+)
+Measurements <- tbl(con, "Measurements")
+
+dbGetQuery(con,
+           "
+           SELECT SUM(1) AS num_rows
+           FROM `Measurements`
+           ")
+```
+
+From this query, we find that the number of rows in the Measurements table is 5,052,304.
