@@ -37,10 +37,6 @@ dbGetQuery(con,
     ##   num_rows
     ## 1  5052304
 
-``` r
-# Disconnect database
-```
-
 From this query, we find that the number of rows in the Measurements
 table is 5,052,304.
 

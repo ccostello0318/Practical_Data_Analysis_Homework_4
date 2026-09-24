@@ -36,8 +36,6 @@ dbGetQuery(con,
            SELECT SUM(1) AS num_rows
            FROM `Measurements`
            ")
-
-# Disconnect database
 ```
 
 From this query, we find that the number of rows in the Measurements table is 5,052,304.
