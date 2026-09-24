@@ -10,6 +10,7 @@ Christopher Costello
   - [Question 4.2](#question-42)
   - [Question 4.3](#question-43)
   - [Question 4.4](#question-44)
+  - [Question 4.5](#question-45)
 
 # Question 2
 
@@ -191,7 +192,7 @@ in 2015?
 
 ``` r
 dbGetQuery(con,
-           "
+          "
           SELECT
             SUM(1) AS number_of_flights
           FROM
@@ -207,3 +208,111 @@ dbGetQuery(con,
 
     ##   number_of_flights
     ## 1             41025
+
+## Question 4.5
+
+List the airline and flight number for all flights between LAX and JFK
+on September 26th, 2015.
+
+``` r
+# For reference
+tbl(con, "carriers")
+```
+
+    ## # Source:   table<`carriers`> [?? x 2]
+    ## # Database: mysql  [mdsr_public@mdsr.crcbo51tmesf.us-east-2.rds.amazonaws.com:3306/airlines]
+    ##    carrier name                                        
+    ##    <chr>   <chr>                                       
+    ##  1 02Q     Titan Airways                               
+    ##  2 04Q     Tradewind Aviation                          
+    ##  3 05Q     Comlux Aviation, AG                         
+    ##  4 06Q     Master Top Linhas Aereas Ltd.               
+    ##  5 07Q     Flair Airlines Ltd.                         
+    ##  6 09Q     Swift Air, LLC                              
+    ##  7 0BQ     DCA                                         
+    ##  8 0CQ     ACM AIR CHARTER GmbH                        
+    ##  9 0GQ     Inter Island Airways, d/b/a Inter Island Air
+    ## 10 0HQ     Polar Airlines de Mexico d/b/a Nova Air     
+    ## # ℹ more rows
+
+``` r
+dbGetQuery(con,
+          "
+          SELECT
+            c.name AS airline,
+            f.flight AS flight_number
+          FROM flights AS f
+          JOIN carriers AS c
+            ON f.carrier = c.carrier
+          WHERE
+            year = 2015 AND
+            month = 9 AND
+            day = 26
+            AND (
+              (origin = 'LAX' AND dest = 'JFK') OR
+              (origin = 'JFK' AND dest = 'LAX')
+            )
+          ")
+```
+
+    ##                   airline flight_number
+    ## 1   United Air Lines Inc.           441
+    ## 2         JetBlue Airways            24
+    ## 3          Virgin America           399
+    ## 4    Delta Air Lines Inc.          1908
+    ## 5         JetBlue Airways            23
+    ## 6  American Airlines Inc.           118
+    ## 7    Delta Air Lines Inc.           476
+    ## 8          Virgin America           404
+    ## 9  American Airlines Inc.            34
+    ## 10 American Airlines Inc.            33
+    ## 11  United Air Lines Inc.           275
+    ## 12   Delta Air Lines Inc.           472
+    ## 13  United Air Lines Inc.          1985
+    ## 14 American Airlines Inc.             2
+    ## 15        JetBlue Airways           123
+    ## 16        JetBlue Airways           124
+    ## 17   Delta Air Lines Inc.           412
+    ## 18         Virgin America           407
+    ## 19 American Airlines Inc.           255
+    ## 20         Virgin America           406
+    ## 21  United Air Lines Inc.           779
+    ## 22        JetBlue Airways           223
+    ## 23        JetBlue Airways           224
+    ## 24  United Air Lines Inc.           703
+    ## 25 American Airlines Inc.             4
+    ## 26   Delta Air Lines Inc.           423
+    ## 27 American Airlines Inc.             3
+    ## 28 American Airlines Inc.            19
+    ## 29         Virgin America           411
+    ## 30        JetBlue Airways           323
+    ## 31        JetBlue Airways           324
+    ## 32   Delta Air Lines Inc.           920
+    ## 33         Virgin America           412
+    ## 34   Delta Air Lines Inc.           464
+    ## 35 American Airlines Inc.            32
+    ## 36  United Air Lines Inc.          1752
+    ## 37  United Air Lines Inc.           841
+    ## 38 American Airlines Inc.           117
+    ## 39        JetBlue Airways           424
+    ## 40   Delta Air Lines Inc.           477
+    ## 41         Virgin America           416
+    ## 42 American Airlines Inc.            22
+    ## 43 American Airlines Inc.           180
+    ## 44        JetBlue Airways           423
+    ## 45         Virgin America           413
+    ## 46   Delta Air Lines Inc.           447
+    ## 47 American Airlines Inc.            21
+    ## 48   Delta Air Lines Inc.           420
+    ## 49        JetBlue Airways           523
+    ## 50  United Air Lines Inc.           535
+    ## 51 American Airlines Inc.           293
+    ## 52         Virgin America           415
+    ## 53        JetBlue Airways           623
+    ## 54        JetBlue Airways           524
+    ## 55   Delta Air Lines Inc.          1162
+    ## 56  United Air Lines Inc.           912
+    ## 57   Delta Air Lines Inc.          1262
+    ## 58         Virgin America           420
+    ## 59 American Airlines Inc.            30
+    ## 60        JetBlue Airways           624

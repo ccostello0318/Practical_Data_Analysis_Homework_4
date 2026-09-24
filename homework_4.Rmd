@@ -136,7 +136,7 @@ How many domestic flights came into or flew out of Bradley Airport (BDL) in 2015
 
 ```{r question 4.4}
 dbGetQuery(con,
-           "
+          "
           SELECT
             SUM(1) AS number_of_flights
           FROM
@@ -148,4 +148,31 @@ dbGetQuery(con,
               dest = 'BDL'
             )
            ")
+```
+
+## Question 4.5
+
+List the airline and flight number for all flights between LAX and JFK on September 26th, 2015.
+
+```{r question 4.5}
+# For reference
+tbl(con, "carriers")
+
+dbGetQuery(con,
+          "
+          SELECT
+            c.name AS airline,
+            f.flight AS flight_number
+          FROM flights AS f
+          JOIN carriers AS c
+            ON f.carrier = c.carrier
+          WHERE
+            year = 2015 AND
+            month = 9 AND
+            day = 26
+            AND (
+              (origin = 'LAX' AND dest = 'JFK') OR
+              (origin = 'JFK' AND dest = 'LAX')
+            )
+          ")
 ```
